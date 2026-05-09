@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi import Response
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 
@@ -18,10 +17,6 @@ app.add_middleware(
     allow_methods=["*"],  # GET, POST 등 모든 메소드 허용
     allow_headers=["*"],  # 모든 헤더 허용
 )
-
-@app.options("/{path:path}")
-def preflight(path: str):
-    return Response(status_code=204)
 
 @app.get("/")
 def read_root():
@@ -42,7 +37,7 @@ def get_samsung_stock():
             change_percent = 0
 
         return {
-            "name": "삼성전자123",
+            "name": "삼성전자",
             "current_price": round(current_price, 2),
             "change_percent": round(change_percent, 2)
         }
