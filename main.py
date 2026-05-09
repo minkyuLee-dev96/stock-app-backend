@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import Response
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 
@@ -17,6 +18,10 @@ app.add_middleware(
     allow_methods=["*"],  # GET, POST 등 모든 메소드 허용
     allow_headers=["*"],  # 모든 헤더 허용
 )
+
+@app.options("/{path:path}")
+def preflight(path: str):
+    return Response(status_code=204)
 
 @app.get("/")
 def read_root():
