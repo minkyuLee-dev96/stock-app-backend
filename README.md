@@ -27,10 +27,11 @@
 - **FastAPI 기본 서버 구성**
   - `GET /` 헬스체크성 루트 엔드포인트 제공
   - 서버 실행 시 JSON 메시지 반환으로 런타임 상태 확인
+  - `main.py`는 앱 생성/미들웨어/라우터 등록 같은 설정 역할만 담당
 
-- **삼성전자 실시간 시세 API**
-  - `GET /stock/samsung`
-  - `yfinance.Ticker("005930.KS")`를 통해 KRX 티커 데이터 조회
+- **종목 실시간 시세 API**
+  - `GET /stock/{ticker}`
+  - `yfinance.Ticker("<ticker>.KS")`를 통해 KRX 티커 데이터 조회
   - `fast_info.last_price`, `fast_info.previous_close` 기반으로 응답 데이터 구성
 
 - **등락률 계산 로직**
@@ -62,9 +63,9 @@
 }
 ```
 
-### `GET /stock/samsung`
+### `GET /stock/{ticker}`
 
-- **Description**: 삼성전자(005930.KS) 실시간 시세 및 등락률 조회
+- **Description**: 요청한 티커의 실시간 시세 및 등락률 조회 (`005930` 입력 시 `005930.KS`로 정규화)
 - **Success Response Example**
 
 ```json
@@ -122,7 +123,7 @@ source venv/bin/activate
 
 ### 3) 의존성 설치
 
-`requirements.txt`는 생성 예정이며, 생성 후 아래 명령으로 설치합니다.
+아래 명령으로 의존성을 설치합니다.
 
 ```bash
 pip install -r requirements.txt
@@ -137,3 +138,15 @@ uvicorn main:app --reload
 - 기본 접속 URL: `http://127.0.0.1:8000`
 - Swagger UI: `http://127.0.0.1:8000/docs`
 - ReDoc: `http://127.0.0.1:8000/redoc`
+
+## 7. Testing (TDD)
+
+- 이 프로젝트는 **TDD(Test Driven Development)를 필수 원칙**으로 사용합니다.
+- 기능 추가/변경 시 반드시 테스트를 먼저 작성하거나 동시에 보강해야 합니다.
+- 외부 API(`yfinance`)에 의존하는 로직은 테스트에서 모킹하여 안정적으로 검증합니다.
+
+### 테스트 실행
+
+```bash
+pytest
+```
