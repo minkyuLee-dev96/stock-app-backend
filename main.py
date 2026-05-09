@@ -42,7 +42,7 @@ def get_samsung_stock():
             change_percent = 0
 
         return {
-            "name": "삼성전자",
+            "name": "삼성전자123",
             "current_price": round(current_price, 2),
             "change_percent": round(change_percent, 2)
         }
